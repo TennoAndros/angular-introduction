@@ -175,3 +175,13 @@
   <app-person-table></app-person-table>
   <app-person-table [person]="person1"></app-person-table>
   ```
+## Βήμα 5: @for Template Directive
+
+- Ορισμός χαρακτηριστικού `persons` τύπου `Person[]` στην κλάση `AppComponent` (πίνακας αντικειμένων τύπου `Person`)
+- Χρήση του template directive `@for(obj of objects); track obj` για την εμφάνιση των δεδομένων του πίνακα `persons` με τη χρήση του component `PersonTableComponent`
+
+  ```html
+  @for (user of users; track user) {
+  <app-person-table [person]="user"></app-person-table>
+  }
+  ```
