@@ -143,4 +143,35 @@
 - Συμπερίληψη της κλάσης `PersonTableComponent` στον πίνακα `imports` στην αρχικοποίηση του decorator στο αρχείο `app.component.ts`.
 - Χρήση του νέου component στο template του `app.component.html` με την ετικέτα `<app-person-table></app-person-table>`.
 
+## Βήμα 4: Component Input
 
+- Δημιουργία interface για τα δεδομένα τύπου `Person`
+
+  ```bash
+  ng generate interface shared/interfaces/person
+  ```
+
+  ```typescript
+  export interface Person {
+    givenName: string;
+    surName: string;
+    age: number;
+    email: string;
+    address: string;
+  }
+  ```
+
+- Χρήση του interface `Person` ως τύπο του χαρακτηριστικού `person` στο component `PersonTableComponent`
+
+- Χρήση του decorator `@Input()` στο χαρακτηριστικό `person` τύπου `Person` ή `undefined` στο component `PersonTableComponent`
+
+- Χρήση του `@if() {} @else {}` στο template του component `PersonTableComponent` για την υπό συνθήκη εμφάνιση των δεδομένων του χαρακτηριστικού `person`
+
+- Η δέσμευση των χαρακτηριστικών της κλάσης `AppComponent` στο χαρακτηριστικό `person` του component `PersonTableComponent` γίνεται στο template του component `AppComponent`
+
+  ```html
+  <app-person-table [person]="person0"></app-person-table>
+  <!-- Χωρίς δέσμευση στο επόμενο -->
+  <app-person-table></app-person-table>
+  <app-person-table [person]="person1"></app-person-table>
+  ```
