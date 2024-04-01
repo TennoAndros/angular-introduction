@@ -1,3 +1,8 @@
+@if(!person){
+<div class="alert alert-danger text-center">
+    No Person Details!
+</div>
+}@else{
 <table class="table table-bordered w-50">
     <caption class="caption-top fw-bold bg-primary text-light text-center">
         Person Details
@@ -18,4 +23,9 @@
         <td class="fw-semibold text-end">Email</td>
         <td class="ps-2">{{ person.email }}</td>
     </tr>
+    <tr>
+        <td class="fw-semibold text-end">Address</td>
+        <td class="ps-2">{{ person.email }}</td>
+    </tr>
 </table>
+}

@@ -2,9 +2,10 @@
   <h3>Welcome to Angular</h3>
   <p>Hello <strong>{{name}}</strong>! Nice to meet you.</p>
 
-  <app-person-table></app-person-table>
-  <app-person-table></app-person-table>
-  <app-person-table></app-person-table>
-
+  <div class="d-flex gap-5 text-wrap">
+    <app-person-table [person]="person0"></app-person-table>
+    <app-person-table [person]="person1"></app-person-table>
+    <app-person-table></app-person-table>
+  </div>
 
 </div>
