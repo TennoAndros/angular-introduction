@@ -9,11 +9,11 @@
     </caption>
     <tr>
         <td class="fw-semibold text-end">First Name</td>
-        <td class="ps-2">{{ person.firstName }}</td>
+        <td class="ps-2">{{ person.first_name }}</td>
     </tr>
     <tr>
         <td class="fw-semibold text-end">Last Name</td>
-        <td class="ps-2">{{ person.lastName }}</td>
+        <td class="ps-2">{{ person.last_name }}</td>
     </tr>
     <tr>
         <td class="fw-semibold text-end">Age</td>
@@ -23,9 +23,18 @@
         <td class="fw-semibold text-end">Email</td>
         <td class="ps-2">{{ person.email }}</td>
     </tr>
+    @if(isPerson()){
     <tr>
         <td class="fw-semibold text-end">Address</td>
-        <td class="ps-2">{{ person.email }}</td>
+        <td class="ps-2">{{ person["address"] }}</td>
     </tr>
+    }
+    @if(isEPerson()){
+    <tr>
+        <td class="fw-semibold text-end">Marital Status</td>
+        <td class="ps-2">{{ person["marital_status"] }}</td>
+    </tr>
+    }
+
 </table>
 }

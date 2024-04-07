@@ -351,3 +351,31 @@
 - Update the `SimpleDataTableComponent` to emit the selected row on double click.
   - Use the `@Output()` decorator on the `personClicked` attribute of type `EPerson` in the `SimpleDataTableComponent`.
   - The output is an `EventEmitter<T>` that carries data of type `<T>`.
+
+## Step 11: Angular Material
+
+- Install Angular Material and Angular CDK:
+
+  ```bash
+  ❯ ng add @angular/material
+  ℹ Using package manager: npm
+  ✔ Found compatible package version: @angular/material@17.3.2.
+  ✔ Package information loaded.
+
+  The package @angular/material@17.3.2 will be installed and executed.
+  Would you like to proceed? Yes
+  ✔ Packages successfully installed.
+  ? Choose a prebuilt theme name, or "custom" for a custom theme: Indigo/Pink        [ Preview:
+  https://material.angular.io?theme=indigo-pink ]
+  ? Set up global Angular Material typography styles? No
+  ? Include the Angular animations module? Include and enable animations
+  UPDATE package.json (1396 bytes)
+  ✔ Packages installed successfully.
+  UPDATE src/app/app.config.ts (338 bytes)
+  UPDATE angular.json (3652 bytes)
+  UPDATE src/index.html (516 bytes)
+  UPDATE src/styles.css (181 bytes)
+  ```
+
+- Modify the `PersonTableComponent` to handle data either `Person` or `EPerson`.
+- Modify the `ComponentOutputExampleComponent` and replace `alert` with Angular Material's `dialog` (https://t.ly/JLFka).
