@@ -4,6 +4,7 @@ import { WelcomeComponentComponent } from './components/welcome-component/welcom
 import { ComponentInputExampleComponent } from './components/component-input-example/component-input-example.component';
 import { ForDirectiveExampleComponent } from './components/for-directive-example/for-directive-example.component';
 import { SimpleDatatableExampleComponent } from './components/simple-datatable-example/simple-datatable-example.component';
+import { ComponentOutputExampleComponent } from './components/component-output-example/component-output-example.component';
 
 export const routes: Routes = [
   { path: '', component: WelcomeComponentComponent },
@@ -17,8 +18,8 @@ export const routes: Routes = [
     path: 'simple-datatable-example',
     component: SimpleDatatableExampleComponent,
   },
-  // {
-  //   path: 'component-output-example',
-  //   component: ComponentOutputExampleComponent,
-  // },
+  {
+    path: 'component-output-example',
+    component: ComponentOutputExampleComponent,
+  },
 ];

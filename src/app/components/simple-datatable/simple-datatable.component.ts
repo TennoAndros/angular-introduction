@@ -11,6 +11,7 @@ import { sortBy } from 'lodash-es';
 })
 export class SimpleDatatableComponent {
   @Input() data: EPerson[];
+  @Output() personClicked = new EventEmitter<EPerson>();
 
   sortOrder = {
     first_name: 'none',
@@ -43,5 +44,9 @@ export class SimpleDatatableComponent {
     } else {
       return '';
     }
+  }
+
+  onPersonClicked(person: EPerson) {
+    this.personClicked.emit(person);
   }
 }

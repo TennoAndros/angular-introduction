@@ -344,3 +344,10 @@
   npm i lodash-es
   npm i --save-dev @types/lodash-es
   ```
+
+  ## Step 10: Component Output
+
+- Create the `ComponentOutputExampleComponent` and update our application menu (in `app.routes.ts` and `list-group-menu.component.ts`).
+- Update the `SimpleDataTableComponent` to emit the selected row on double click.
+  - Use the `@Output()` decorator on the `personClicked` attribute of type `EPerson` in the `SimpleDataTableComponent`.
+  - The output is an `EventEmitter<T>` that carries data of type `<T>`.
