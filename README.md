@@ -259,7 +259,7 @@
   1. Update the `app.routes.ts` file
   2. Update the menu HTML with the appropriate `routerLink` directives
 
-## Step 7: Fancy App Menu with Bootstrap's [list-group](https://t.ly/vmYc2)
+## Step 8: Fancy App Menu with Bootstrap's [list-group](https://t.ly/vmYc2)
 
 - Create a new interface `MenuItem` in the file `shared/interfaces/menu-item.ts`:
 
@@ -284,4 +284,63 @@
     { text: '@for Directive Example', routerLink: 'for-directive-example' },
     { text: 'Event Bind Example', routerLink: 'event-bind-example' },
   ];
+  ```
+
+  ## Step 9: Simple Datatable
+
+- Use https://cobbl.io/ to generate a table with multiple `EPerson` data defined in `/shared/interfaces/person.ts`:
+
+  ```typescript
+  export interface EPerson {
+    givenName: string;
+    surName: string;
+    age: string;
+    email: string;
+    address: string;
+    education: string;
+  }
+
+  export const ManyPerson: EPerson[] = [
+    {
+      given_name: 'Sarah',
+      surName: 'Howard',
+      age: '41',
+      email: 's.m.howard@yahoo.com',
+      education: 'Some college, no degree',
+    },
+    ...
+    ]
+  ```
+
+- Create the `SimpleDataTableComponent`: takes `EPerson` data and displays it in a table with column sorting capability.
+- Create the `SimpleDataTableExampleComponent`: utilizes the `SimpleDataTableComponent`.
+- Update our application menu
+
+  - `app.routes.ts`:
+
+    ```typescript
+    ...
+    {
+      path: 'simple-data-table-example',
+      component: SimpleDatatableExampleComponent,
+    }
+    ...
+    ```
+
+  - `list-group-menu.component.ts`:
+
+    ```typescript
+    ...
+    {
+      text: 'Simple Data Table Example',
+      routerLink: 'simple-data-table-example',
+    }
+    ...
+    ```
+
+- Install `lodash-es`:
+
+  ```bash
+  npm i lodash-es
+  npm i --save-dev @types/lodash-es
   ```
