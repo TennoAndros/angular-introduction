@@ -4,6 +4,5 @@ import { WelcomeComponentComponent } from './components/welcome-component/welcom
 
 export const routes: Routes = [
   { path: 'event-bind-example', component: EventBindExampleComponent },
-  { path: 'welcome', component: WelcomeComponentComponent },
-  { path: '', redirectTo: '/welcome', pathMatch: 'full' },
+  { path: '', component: WelcomeComponentComponent },
 ];
