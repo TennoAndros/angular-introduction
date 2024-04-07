@@ -258,3 +258,30 @@
 
   1. Update the `app.routes.ts` file
   2. Update the menu HTML with the appropriate `routerLink` directives
+
+## Step 7: Fancy App Menu with Bootstrap's [list-group](https://t.ly/vmYc2)
+
+- Create a new interface `MenuItem` in the file `shared/interfaces/menu-item.ts`:
+
+  ```typescript
+  export interface MenuItem {
+    text: string; // Text displayed in the menu
+    routerLink: string; // Path corresponding to the component
+  }
+  ```
+
+- Create the `ListGroupMenuComponent` component with the command:
+
+  ```bash
+  ng g c components/list-group-menu
+  ```
+
+- Our application menu is an array of objects `MenuEntry`:
+
+  ```typescript
+  menu: MenuEntry[] = [
+    { text: 'Component Input Example', routerLink: 'component-input-example' },
+    { text: '@for Directive Example', routerLink: 'for-directive-example' },
+    { text: 'Event Bind Example', routerLink: 'event-bind-example' },
+  ];
+  ```
