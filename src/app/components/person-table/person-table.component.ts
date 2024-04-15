@@ -16,6 +16,6 @@ export class PersonTableComponent {
   }
 
   isEPerson() {
-    return this.person && 'marital_status' in this.person;
+    return this.person && 'education' in this.person;
   }
 }

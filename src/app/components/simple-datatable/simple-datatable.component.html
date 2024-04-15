@@ -1,29 +1,29 @@
-<table class="table table-bordered table-striped text-wrap">
+<table class="table table-bordered table-hover text-wrap">
     <thead>
-        <tr class="align-middle text-center small">
-            <th role="button" (click)="sortData('first_name')">
-                First Name {{ sortSign("first_name") }}
+        <tr class="align-middle text-center small table-primary">
+            <th role="button" (click)="sortData('firstName')">
+                First Name {{ sortSign("firstName") }}
             </th>
-            <th role="button" (click)="sortData('last_name')">
-                Last Name {{ sortSign("last_name") }}
+            <th role="button" (click)="sortData('lastName')">
+                Last Name {{ sortSign("lastName") }}
             </th>
             <th role="button" (click)="sortData('age')">Age {{ sortSign("age") }}</th>
             <th role="button" (click)="sortData('email')" class="d-none d-lg-table-cell">
                 Email {{ sortSign("email") }}
             </th>
-            <th role="button" (click)="sortData('marital_status')" class="d-none d-lg-table-cell">
-                Marital Status {{ sortSign("marital_status") }}
+            <th role="button" (click)="sortData('education')" class="d-none d-lg-table-cell">
+                Education {{ sortSign("education") }}
             </th>
         </tr>
     </thead>
     <tbody>
         @for (row of data; track row) {
         <tr class="align-middle" (dblclick)="onPersonClicked(row)">
-            <td>{{ row.first_name }}</td>
-            <td>{{ row.last_name }}</td>
+            <td>{{ row.firstName }}</td>
+            <td>{{ row.lastName }}</td>
             <td>{{ row.age }}</td>
             <td class="d-none d-lg-table-cell">{{ row.email }}</td>
-            <td class="d-none d-lg-table-cell">{{ row.marital_status }}</td>
+            <td class="d-none d-lg-table-cell">{{ row.education }}</td>
         </tr>
         }
     </tbody>

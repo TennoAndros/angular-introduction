@@ -153,8 +153,8 @@
 
   ```typescript
   export interface Person {
-    givenName: string;
-    surName: string;
+    firstName: string;
+    lastName: string;
     age: number;
     email: string;
     address: string;
@@ -178,8 +178,8 @@
 
 ## Step 5: @for Template Directive
 
-- Define an attribute `persons` of type `Person[]` in the `AppComponent` class (array of objects of type `Person`).
-- Use the template directive `@for(obj of objects); track obj` to display the data of the `persons` array using the `PersonTableComponent` component.
+- Define an attribute `people` of type `Person[]` in the `AppComponent` class (array of objects of type `Person`).
+- Use the template directive `@for(obj of objects); track obj` to display the data of the `people` array using the `PersonTableComponent` component.
 
   ```html
   @for (user of users; track user) {
@@ -292,8 +292,8 @@
 
   ```typescript
   export interface EPerson {
-    givenName: string;
-    surName: string;
+    firstName: string;
+    lastName: string;
     age: string;
     email: string;
     address: string;
@@ -303,7 +303,7 @@
   export const ManyPerson: EPerson[] = [
     {
       given_name: 'Sarah',
-      surName: 'Howard',
+      lastName: 'Howard',
       age: '41',
       email: 's.m.howard@yahoo.com',
       education: 'Some college, no degree',
@@ -379,3 +379,18 @@
 
 - Modify the `PersonTableComponent` to handle data either `Person` or `EPerson`.
 - Modify the `ComponentOutputExampleComponent` and replace `alert` with Angular Material's `dialog` (https://t.ly/JLFka).
+
+## Step 12: Template Driven Forms
+
+- Create the `EpersonTemplateDrivenFormComponent` and `TemplateDrivenFormExampleComponent`.
+- Update our application menu (in `app.routes.ts` and `list-group-menu.component.ts`).
+- Intervene in the `SimpleDatatableComponent` for the case of an empty table.
+- Use the Angular Forms Module.
+
+The form is defined in the template and passes data to the component upon submission. Typically, an EventEmitter transfers the data to the parent component.
+
+- Use the `FormsModule` in the component's imports array (enriches templates with additional HTML markup to create objects from forms).
+- `<form #form="ngForm">...</form>` defines how the HTML form creates an object manageable within the template using the `form` template variable.
+- The `form` object is passed as an argument to `onSubmit(form)` when the `onSubmit` event occurs (triggered by the Submit button, which can only be clicked when the form is correctly filled out (valid)).
+- Assign the input's name attribute to the name of the object's property produced by the form and associated with that particular input. This property participates in the object only if we include the `ngModel` directive.
+- With `#givenName="ngModel"`, we declare the template variable named `givenName`, which is an object that can be examined for correctness with `givenName.errors` and used conditionally to display explanatory text for any validation errors.

@@ -14,11 +14,11 @@ export class SimpleDatatableComponent {
   @Output() personClicked = new EventEmitter<EPerson>();
 
   sortOrder = {
-    first_name: 'none',
-    last_name: 'none',
+    firstName: 'none',
+    lastName: 'none',
     age: 'none',
     email: 'nome',
-    marital_status: 'none',
+    education: 'none',
   };
 
   sortData(sortKey: string) {

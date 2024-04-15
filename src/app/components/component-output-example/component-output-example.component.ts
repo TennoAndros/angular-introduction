@@ -31,11 +31,11 @@ export class ComponentOutputExampleComponent {
     return `
     Person Details:
 
-    First Name: ${person.first_name}
-    Last Name: ${person.last_name}
+    First Name: ${person.firstName}
+    Last Name: ${person.lastName}
     Age: ${person.age}
     Email: ${person.email}
-    Education: ${person.marital_status}
+    Education: ${person.education}
     `;
   }
 }

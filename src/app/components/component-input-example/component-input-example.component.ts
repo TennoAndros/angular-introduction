@@ -11,15 +11,15 @@ import { PersonTableComponent } from '../person-table/person-table.component';
 })
 export class ComponentInputExampleComponent {
   person0: Person = {
-    first_name: 'Andy',
-    last_name: 'Atos',
+    firstName: 'Andy',
+    lastName: 'Atos',
     age: 0x21,
     email: 'andy@something.gr',
     address: 'somewhere, Greece',
   };
   person1: Person = {
-    first_name: 'Triss',
-    last_name: 'Merigold',
+    firstName: 'Triss',
+    lastName: 'Merigold',
     age: 0x19,
     email: 'triss@something.gr',
     address: 'somewhere, Greece',

@@ -1,0 +1,12 @@
+<h4>Template Driven Form Example</h4>
+
+<div class="">
+    <app-eperson-template-driven-form (person)="onPerson($event)"></app-eperson-template-driven-form>
+
+    <div class="d-flex flex-column mt-4">
+        <h5> Added Person Details</h5>
+        <app-simple-datatable [data]="people"></app-simple-datatable>
+        <app-person-table [person]="currentPerson"></app-person-table>
+    </div>
+
+</div>
