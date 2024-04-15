@@ -302,7 +302,7 @@
 
   export const ManyPerson: EPerson[] = [
     {
-      given_name: 'Sarah',
+      firstName: 'Sarah',
       lastName: 'Howard',
       age: '41',
       email: 's.m.howard@yahoo.com',
@@ -393,4 +393,17 @@ The form is defined in the template and passes data to the component upon submis
 - `<form #form="ngForm">...</form>` defines how the HTML form creates an object manageable within the template using the `form` template variable.
 - The `form` object is passed as an argument to `onSubmit(form)` when the `onSubmit` event occurs (triggered by the Submit button, which can only be clicked when the form is correctly filled out (valid)).
 - Assign the input's name attribute to the name of the object's property produced by the form and associated with that particular input. This property participates in the object only if we include the `ngModel` directive.
-- With `#givenName="ngModel"`, we declare the template variable named `givenName`, which is an object that can be examined for correctness with `givenName.errors` and used conditionally to display explanatory text for any validation errors.
+- With `#firstName="ngModel"`, we declare the template variable named `firstName`, which is an object that can be examined for correctness with `firstName.errors` and used conditionally to display explanatory text for any validation errors.
+
+## Step 13: Reactive Forms
+
+- We start with the same steps as in step 11.
+
+The form is defined in the component and connected to the template's inputs. A click handler transfers the data to the component, and then an EventEmitter transfers the data to the parent component.
+
+- Use the `ReactiveFormsModule` in the component's imports array (enriches templates with additional HTML markup to associate them with the component's properties).
+- Use the `FormGroup` and `FormControl` classes to structure the object produced by the form. Utilize `Validators`.
+- Bind the component's `form` property using `[formGroup]="form"` in the template.
+- Connect the input to the `FormControl` using `formControlName`.
+- Access the form field directly with `form.get('field name')`.
+- Upon submission, the `form` property already has a value in the component.
