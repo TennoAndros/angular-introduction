@@ -4,14 +4,16 @@
     <form #form="ngForm" class="d-flex flex-column">
         <mat-form-field>
             <mat-label> First Name </mat-label>
-            <input matInput ngModel required type="text" name="firstName" #firstName="ngModel" />
+            <input matInput ngModel required type="text" name="firstName" #firstName="ngModel"
+                aria-label="enter your first name" />
             @if (firstName.errors && firstName.errors["required"]) {
             <mat-error> First Name is required </mat-error>
             }
         </mat-form-field>
         <mat-form-field>
             <mat-label> Last Name </mat-label>
-            <input matInput ngModel required type="text" name="lastName" #lastName="ngModel" />
+            <input matInput ngModel required type="text" name="lastName" #lastName="ngModel"
+                aria-label="enter your last name" />
             @if (lastName.errors && lastName.errors["required"]) {
             <mat-error> Last Name is required </mat-error>
             }
@@ -56,7 +58,7 @@
             }
         </mat-form-field>
     </form>
-    <button (click)="onSubmit(form.value)" mat-flat-button color="primary" [disabled]="form.invalid">
+    <button (click)="onSubmit(form.value)" mat-flat-button color="success" [disabled]="form.invalid">
         Submit
     </button>
 

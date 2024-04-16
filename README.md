@@ -407,3 +407,106 @@ The form is defined in the component and connected to the template's inputs. A c
 - Connect the input to the `FormControl` using `formControlName`.
 - Access the form field directly with `form.get('field name')`.
 - Upon submission, the `form` property already has a value in the component.
+
+## Step 14: HTTP Client Service
+
+- To use the HTTP Client, intervention in `app.config.ts` is necessary:
+
+```typescript
+import { ApplicationConfig } from "@angular/core";
+import { provideRouter } from "@angular/router";
+
+import { routes } from "./app.routes";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
+
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient(withInterceptorsFromDi())],
+};
+```
+
+-Create the `JokesService` with the command:
+
+```bash
+ ng generate service shared/services/jokes
+```
+
+-It's common practice to define the API URL with `const`:
+
+````typescript
+    const DAD_JOKES_API_URL = "https://icanhazdadjoke.com/";
+    const JACK_NORRIS_JOKES_API_URL = "https://api.chucknorris.io/jokes/random";
+    ```
+````
+
+-The service is a TypeScript class with the decorator `@Injectable({providedIn: 'root'})` allowing the service to be injected into all Angular components using `inject`.
+
+-The `HttpClient` is an Angular service that provides the ability to send HTTP requests and receive HTTP responses. Our application services directly incorporate HttpClient using inject.
+
+-Create the HttpClientExampleComponent to demonstrate the functionality of HttpClient through `JokesService`:
+
+```bash
+ng g c components/http-client-example
+```
+
+-Check the data type of the API responses with `console.log`.
+
+```typescript
+import { Component, inject } from "@angular/core";
+import { JokesService } from "src/app/shared/services/jokes.service";
+
+@Component({
+  selector: "app-http-client-example",
+  standalone: true,
+  imports: [],
+  templateUrl: "./http-client-example.component.html",
+  styleUrl: "./http-client-example.component.css",
+})
+export class HttpClientExampleComponent {
+  jokesService = inject(JokesService);
+
+  ngOnInit(): void {
+    this.jokesService.getDadJoke().subscribe((data) => {
+      console.log(data);
+    });
+    this.jokesService.getChuckNorrisJoke().subscribe((data) => {
+      console.log(data);
+    });
+  }
+}
+```
+
+-Create the `DadJoke` and `ChuckNorrisJoke` interfaces in `shared/interfaces/jokes.ts`:
+
+```typescript
+export interface DadJoke {
+  joke: string;
+}
+
+export interface ChuckNorrisJoke {
+  value: string;
+}
+```
+
+-Use the interfaces for casting in `HttpClient`.
+
+```typescript
+getDadJoke() {
+    return this.http.get<DadJoke>(DAD_JOKES_API_URL, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+  }
+
+  getChuckNorrisJoke() {
+    return this.http.get<ChuckNorrisJoke>(JACK_NORRIS_JOKES_API_URL, {
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+  }
+```
+
+-Update the application menu.

@@ -19,11 +19,11 @@
     <tbody>
         @for (row of data; track row) {
         <tr class="align-middle" (dblclick)="onPersonClicked(row)">
-            <td>{{ row.firstName }}</td>
-            <td>{{ row.lastName }}</td>
-            <td>{{ row.age }}</td>
-            <td class="d-none d-lg-table-cell">{{ row.email }}</td>
-            <td class="d-none d-lg-table-cell">{{ row.education }}</td>
+            <td role="button">{{ row.firstName }}</td>
+            <td role="button">{{ row.lastName }}</td>
+            <td role="button">{{ row.age }}</td>
+            <td role="button" class="d-none d-lg-table-cell">{{ row.email }}</td>
+            <td role="button" class="d-none d-lg-table-cell">{{ row.education }}</td>
         </tr>
         }
     </tbody>

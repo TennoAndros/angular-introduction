@@ -1,4 +1,4 @@
-.d-flex.flex-column button.mat-success {
+.mat-success:hover {
   color: white;
   background-color: rgb(55, 125, 231);
 }
