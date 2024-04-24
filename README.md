@@ -288,7 +288,7 @@
   ];
   ```
 
-  ## Step 9: Simple Datatable
+## Step 9: Simple Datatable
 
 - Use https://cobbl.io/ to generate a table with multiple `EPerson` data defined in `/shared/interfaces/person.ts`:
 
@@ -347,7 +347,7 @@
   npm i --save-dev @types/lodash-es
   ```
 
-  ## Step 10: Component Output
+## Step 10: Component Output
 
 - Create the `ComponentOutputExampleComponent` and update our application menu (in `app.routes.ts` and `list-group-menu.component.ts`).
 - Update the `SimpleDataTableComponent` to emit the selected row on double click.
@@ -513,7 +513,7 @@ getDadJoke() {
 
 -Update the application menu.
 
-## Step 14: User Registration Form and Service
+## Step 15: User Registration Form and Service
 
 - From this point onwards, it is necessary to have Python installed and use the Python-Flask backend from the repository [angular-introduction-backend](https://github.com/christodoulos/angular-introduction-python-backend).
 
@@ -678,3 +678,20 @@ export interface LoggedInUser {
     this.router.navigate(['login']);
   }
   ```
+
+## Step 17: Implementation of the Fun for Nerds Exercise(Teachers)
+
+- Game Description
+
+  The game consists of 3 Components:
+
+1. **InputWordComponent**: Here, the user starts typing a word in an HTML input element. Depending on the length of the word, it is "considered" to be passed as Input to either the `EvenLengthWordsComponent` or the `OddLengthWordsComponent`.
+2. **EvenLengthComponent and OddLengthComponent**: These components display words entered by the user. The words are displayed in red color based on their length, alternating between these two components. When the user presses the "Submit" button, the word is "locked" into the component corresponding to its length.
+
+- How to Play
+
+1. Start typing a word in the input field.
+2. Depending on the length of the word, it will appear in one of the word display components.
+3. Words are displayed in red until the user submits them.
+4. Press "Submit" to lock the word into the respective component.
+5. The game keeps track of the words you've locked so far.
