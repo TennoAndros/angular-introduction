@@ -679,7 +679,7 @@ export interface LoggedInUser {
   }
   ```
 
-## Step 17: Implementation of the Fun for Nerds Exercise(Teachers)
+## Step 17: Implementation of the Fun for Nerds Exercise(T.I)
 
 - Game Description
 
