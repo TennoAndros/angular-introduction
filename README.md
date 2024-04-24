@@ -198,7 +198,9 @@
 - Use the `input` event from an HTML input element to read its value in the class and then pass it back to the template using simple binding with `{{ <attribute_name> }}`
 
   ```html
-  <input type="text" (input)="onInput($event)" />
+  <input
+    type="text"
+    (input)="onInput($event)" />
   ```
 
 ## Step 7: Routing
@@ -510,3 +512,169 @@ getDadJoke() {
 ```
 
 -Update the application menu.
+
+## Step 14: User Registration Form and Service
+
+- From this point onwards, it is necessary to have Python installed and use the Python-Flask backend from the repository [angular-introduction-backend](https://github.com/christodoulos/angular-introduction-python-backend).
+
+- Generate the environments with the command:
+
+  ```bash
+  ng generate environments
+  ```
+
+-Update the files environment.development.ts and environment.ts.
+
+-Create the User interface in the file shared/interfaces/mongo-backend.ts:
+
+```typescript
+export interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+```
+
+-Create the UserService with the command:
+
+```bash
+  ng generate service shared/services/user
+```
+
+- The `registerUser` method sends the complete data concerning the registration of a new user to the backend.
+
+  - The `check_duplicate_email` method asks the backend if the `email` it receives as an argument is already used in any entry in the database.
+
+- Creation of the `UserRegistrationComponent`, which implements a reactive form for the registration process:
+
+  - It uses the `UserService` through dependency injection,
+  - Initializes the `registrationStatus`,
+  - Defines the registration form with two fields for the password that should receive exactly the same content from the user,
+  - The second argument in the form definition via `FormGroup` is the **overall validator** of the form, in our case, the method of the class that checks if the two password inputs match.
+    - In case of an error in any input, the Validator returns an object with a key indicating the error,
+    - This key can then be used in the template to display an appropriate error message.
+
+- Upon form submission, the `UserService` is used to submit the form data to the backend. The registration in the backend distinguishes between cases of backend response using the `next` and `error` callbacks:
+
+  - `next`: the callback called when the backend sends an HTTP response `20*`.
+  - `error`: the callback called when the backend sends an HTTP response `40*` or `50*`.
+  - Accordingly, we set the `registrationStatus` to have the corresponding control in the template.
+
+- Usage of the backend to check for the existence of a duplicate email in the database and usage of the information during the `blur` event to make the email field invalid.
+
+## Step 16: User Authentication
+
+- We create the `RestrictedContentExampleComponent`, which will function as the first "protected" area of our application, meaning it will only be accessible to users who have registered through registration and have successfully passed access control. We update the `app.routes.ts` and the menu in `list-group-menu.component.ts` as usual, and for now, all users have access.
+
+- We create the `UserLoginComponent`, which will present the form requesting user credentials (email and password) in order to submit them to a method of the `UserService` that will communicate with the backend for their verification. The value of the form is converted to the type
+
+```typescript
+export interface Credentials {
+  email: string;
+  password: string;
+}
+```
+
+as this type of data is expected by the endpoint `/user/login/` on the backend. The submission method with POST to the backend is located in `user.service.ts` (in case of successful access control check, a **JWT token** is created on the backend and returned in the `access_token` attribute of the response):
+
+```typescript
+loginUser(credentials: Credentials) {
+    return this.http.post<{ access_token: string }>(
+      `${API_URL}/login`,
+      credentials,
+    );
+}
+```
+
+- The service call is made in the `onSubmit()` method of `UserLoginComponent`, where in the subscription to the backend response, we receive the result of the successful access control check in the `next` callback. Since what we will receive is an encoded JWT token, we need to decode it (after storing it in `localStorage`):
+
+  ```bash
+  npm i jwt-decode
+  ```
+
+- Signals in the Angular Framework 17+ allow the creation of variables that, through services, **all components** have access to the last value assigned to these variables. Additionally, binding a signal from a component gives the component the ability to **automatically react!** to changes in the signal.
+- We will use a signal to implement the concept of an active authenticated user, which for our application will be an object of type (`src/app/shared/interfaces/mongo-backend.ts`):
+
+```typescript
+export interface LoggedInUser {
+  fullName: string;
+  email: string;
+}
+```
+
+- If no user has logged in to the application, such as when the application just starts, then the signal will contain `null`; otherwise, it will contain the type `LoggedInUser` (in `src/app/shared/services/user.service.ts`):
+
+  ```typescript
+  user = signal<LoggedInUser | null>(null);
+  ```
+
+- We can track changes in signals by using `effect` in the service, where the callback it receives is automatically executed on every signal change:
+
+  ```typescript
+  effect(() => {
+    if (this.user()) {
+      console.log("User logged in:", this.user().fullName);
+    } else {
+      console.log("No user logged in");
+    }
+  });
+  ```
+
+- We are able to complete the callback of the subscription in the backend access check call:
+
+  ```typescript
+  this.userService.loginUser(credentials).subscribe({
+    next: (response) => {
+      const access_token = response.access_token;
+      localStorage.setItem("access_token", access_token);
+      const decodedTokenSubject = jwtDecode(access_token).sub as unknown as LoggedInUser;
+
+      this.userService.user.set({
+        fullName: decodedTokenSubject.fullName,
+        email: decodedTokenSubject.email,
+      });
+      this.router.navigate(["restricted-content-example"]);
+    },
+    error: (error) => {
+      console.error("Login error:", error);
+      this.invalidLogin = true;
+    },
+  });
+  ```
+
+- Once the JWT token is decoded, its payload is assigned to the structure of the signal representing the current authenticated user using the `.set(value: T)` method. Only then is automatic redirection triggered to the protected area of our application.
+
+- Additionally, the creation of a route guard is required to supervise in the `app.routes.ts` file that only authorized users have access to this specific component:
+
+  ```bash
+  ng generate guard shared/guards/auth
+  ```
+
+  Και στο `auth.guard.ts`:
+
+  ```typescript
+  export const authGuard: CanActivateFn = (route state)   => {
+    const userService = inject(UserService);
+    const router = inject(Router);
+
+    if (userService.user()) {
+      return true;
+    }
+    return router.navigate(['login']);
+  };
+  ```
+
+  A route guard either returns true, allowing the component to be displayed in the `router-outlet`, or redirects to the login form to initiate the access control process.
+
+- In order to display the full name of the logged-in user and for better organization of our application, we create the `NavbarComponent` and use the signal from the `UserService` to dynamically handle the template and conditionally display the user's name. Additionally, in this case, we display a prompt for logout.
+
+- The logic for logout is located in the `UserService`:
+
+  ```typescript
+  logoutUser() {
+    this.user.set(null);
+    localStorage.removeItem('access_token');
+    this.router.navigate(['login']);
+  }
+  ```
