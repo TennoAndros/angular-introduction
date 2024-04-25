@@ -1,0 +1,4 @@
+.d-flex.flex-column button.mat-success:not([disabled]) {
+  color: white;
+  background-color: rgb(55, 125, 231);
+}

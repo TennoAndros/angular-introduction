@@ -695,3 +695,131 @@ export interface LoggedInUser {
 3. Words are displayed in red until the user submits them.
 4. Press "Submit" to lock the word into the respective component.
 5. The game keeps track of the words you've locked so far.
+
+## Step 18: CRUD with Create Example
+
+- We are dealing with the `CrudCreateExampleComponent`. We use the `FormArray` to create objects with a dynamic number of properties. Specifically, here we provide the ability to enter a dynamic number of phone numbers (mobile, work, home).
+
+- We need to use a class property that references the `FormArray` in order to effectively have dynamic field insertion from the template.
+
+  ```typescript
+  ...
+  phoneNumbers = this.form.get('phoneNumbers') as FormArray;
+
+  addPhoneNumber() {
+    this.phoneNumbers.push(
+      new FormGroup({
+        number: new FormControl('', Validators.required),
+        type: new FormControl('', Validators.required),
+      }),
+    );
+  }
+
+  removePhoneNumber(index: number) {
+    this.phoneNumbers.removeAt(index);
+  }
+  ...
+  ```
+
+  and in the template:
+
+  ```html
+  ...
+  <div formArrayName="phoneNumbers">
+    @for (phone of phoneNumbers.controls; let i = $index; track i) {
+    <div
+      [formGroupName]="i"
+      class="d-flex gap-3 align-items-center">
+      <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="number" />
+        @if (phone.get("number").invalid && phone.get("number").touched) {
+        <mat-error class="text-wrap">Ο αριθμός του τηλεφώνου είναι απαραίτητος</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option value="Mobile">Κινητό</mat-option>
+          <mat-option value="Work">Εργασία</mat-option>
+          <mat-option value="Home">Σπίτι</mat-option>
+        </mat-select>
+        @if (phone.get("type").invalid && phone.get("type").touched) {
+        <mat-error class="text-wrap">Πρέπει να διαλέξετε κάποιον τύπο τηλεφώνου</mat-error>
+        }
+      </mat-form-field>
+      @if (phoneNumbers.controls.length > 1 && i !== 0) {
+      <mat-icon
+        role="button"
+        (click)="removePhoneNumber(i)"
+        class="cursor-pointer">
+        delete
+      </mat-icon>
+      } @if (phoneNumbers.controls[i].valid) {
+      <mat-icon
+        role="button"
+        (click)="addPhoneNumber()"
+        class="cursor-pointer">
+        add
+      </mat-icon>
+      }
+    </div>
+    }
+  </div>
+  ...
+  ```
+
+- Creation of auth-interceptor.service.ts:
+
+  ```bash
+   ng generate service shared/services/auth-interceptor
+  ```
+
+  The interceptor is an Angular service that can handle HTTP requests or HTTP responses before they reach the server or after the server responds. In our case, the interceptor is responsible for adding the JWT token to the header of HTTP requests that require authentication.
+
+```typescript
+import { HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+
+@Injectable()
+export class AuthInterceptorService implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const authToken = localStorage.getItem("access_token");
+    // console.log('authToken', authToken);
+    if (!authToken) {
+      return next.handle(req);
+    }
+
+    const authRequest = req.clone({
+      headers: req.headers.set("Authorization", "Bearer " + authToken),
+    });
+    return next.handle(authRequest);
+  }
+}
+```
+
+- Updating `app.config.ts`:
+
+  ```typescript
+  ...
+  import {
+    HTTP_INTERCEPTORS,
+    provideHttpClient,
+    withInterceptorsFromDi,
+  } from '@angular/common/http';
+  import { AuthInterceptorService } from './shared/services/auth-interceptor.service';
+
+  export const appConfig: ApplicationConfig = {
+    providers: [
+      ...,
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptorService,
+        multi: true,
+      },
+    ],
+  };
+  ```

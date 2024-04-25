@@ -1,0 +1,129 @@
+<div class="d-flex flex-column gap-2">
+    <app-crud-navbar></app-crud-navbar>
+    <div>
+        <h4>CRUD Create Example</h4>
+        <h5>Create Customer</h5>
+
+        <form [formGroup]="form" class="d-flex flex-column gap-2 w-50">
+            <mat-form-field>
+                <mat-label>First Name</mat-label>
+                <input matInput type="text" formControlName="firstName" aria-label="insert first name" />
+                @if (form.get("firstName").invalid && form.get("firstName").touched) {
+                <mat-error>First name is required</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput type="text" formControlName="lastName" aria-label="insert last name" />
+                @if (form.get("lastName").invalid && form.get("lastName").touched) {
+                <mat-error>Last name is required</mat-error>
+                }
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput type="text" formControlName="email" aria-label="insert email" />
+                @if (form.get("email").hasError("duplicateEmail")) {
+                <mat-error>Email already registered</mat-error>
+                } @else {
+                @if (form.get("email").invalid && form.get("email").touched) {
+                <mat-error>Email invalid or required</mat-error>
+                }
+                }
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>ΑΦΜ</mat-label>
+                <input matInput type="text" formControlName="afm" aria-label="insert afm" />
+                @if (form.get("afm").hasError("duplicateEmail")) {
+                <mat-error>AFM already exists</mat-error>
+                } @else {
+                @if (form.get("afm").invalid && form.get("afm").touched) {
+                <mat-error>AFM is required or invalid</mat-error>
+                }
+                }
+            </mat-form-field>
+            <div formArrayName="phoneNumbers">
+                @for (phone of phoneNumbers.controls; let i = $index; track i) {
+                <div [formGroupName]="i" class="d-flex gap-3 align-items-center">
+                    <mat-form-field>
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput type="text" formControlName="number" aria-label="insert phone number" />
+                        @if (phone.get("number").invalid && phone.get("number").touched) {
+                        <mat-error class="text-wrap">
+                            Phone number required
+                        </mat-error>
+                        }
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Type</mat-label>
+                        <mat-select formControlName="type">
+                            <mat-option value="Mobile">Mobile</mat-option>
+                            <mat-option value="Work">Work</mat-option>
+                            <mat-option value="Home">Home</mat-option>
+                        </mat-select>
+                        @if (phone.get("type").invalid && phone.get("type").touched) {
+                        <mat-error class="text-wrap">
+                            Must choose a type of phone.
+                        </mat-error>
+                        }
+                    </mat-form-field>
+                    @if (phoneNumbers.controls.length > 1 && i !== 0) {
+                    <mat-icon role="button" (click)="removePhoneNumber(i)" class="cursor-pointer">delete</mat-icon>
+                    }
+                    @if (phoneNumbers.controls[i].valid) {
+                    <mat-icon role="button" (click)="addPhoneNumber()" class="cursor-pointer">add</mat-icon>
+                    }
+                </div>
+                }
+            </div>
+            <div formGroupName="address" class="d-flex flex-column">
+                <mat-form-field>
+                    <mat-label>address</mat-label>
+                    <input matInput type="text" formControlName="street" aria-label="insert address" />
+                    @if (
+                    form.get("address.street").invalid &&
+                    form.get("address.street").touched
+                    ) {
+                    <mat-error>Address is required</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Address number</mat-label>
+                    <input matInput type="text" formControlName="number" aria-label=" insert address number" />
+                    @if (
+                    form.get("address.number").invalid &&
+                    form.get("address.number").touched
+                    ) {
+                    <mat-error>Address number is required</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>City</mat-label>
+                    <input matInput type="text" formControlName="city" aria-label="insert city" />
+                    @if (
+                    form.get("address.city").invalid && form.get("address.city").touched
+                    ) {
+                    <mat-error>City is required</mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Postal Code</mat-label>
+                    <input matInput type="text" formControlName="zipCode" aria-label="insert postal code" />
+                    @if (
+                    form.get("address.zipCode").invalid &&
+                    form.get("address.zipCode").touched
+                    ) {
+                    <mat-error>Postal code is required</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+        </form>
+        <div class="d-flex gap-2">
+            <button mat-raised-button color="success" (click)="submit(form.value)" [disabled]="form.invalid">
+                Submit
+            </button>
+            <button mat-raised-button color="warn" (click)="form.reset()">
+                Reset
+            </button>
+        </div>
+    </div>
+</div>
